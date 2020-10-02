@@ -13,7 +13,7 @@
         <div class="d-flex flex-row-fluid flex-column justify-content-between">
           <!--begin: Aside header -->
           <a href="#" class="flex-column-auto">
-            <img src="media/logos/logo-letter-1.png" class="h-25" />
+            <img src="https://www.ynsitu.com/wp-content/uploads/2018/09/logo_head-1.svg" />
           </a>
           <!--end: Aside header -->
           <!--begin: Aside content -->
@@ -21,11 +21,10 @@
             class="flex-column-fluid d-flex flex-column justify-content-center"
           >
             <h3 class="font-size-h1 mt-10 mb-5 text-white">
-              Welcome to Metronic!
+              Bienvenidos a Ynsitu!
             </h3>
             <p class="font-weight-lighter text-white opacity-80">
-              The ultimate Bootstrap, Angular 8, React &amp; VueJS admin theme
-              framework for next generation web apps.
+              Todos los cursos de idiomas en el extranjero.
             </p>
           </div>
           <!--end: Aside content -->
@@ -34,12 +33,12 @@
             class="d-none flex-column-auto d-lg-flex justify-content-between mt-15"
           >
             <div class="opacity-70 font-weight-bold text-white">
-              © 2020 Metronic
+              © 2020 Ynsitu
             </div>
             <div class="d-flex">
-              <a href="#" class="text-white">Privacy</a>
-              <a href="#" class="text-white ml-10">Legal</a>
-              <a href="#" class="text-white ml-10">Contact</a>
+              <a target="_blank" href="https://www.ynsitu.com/" class="text-white">Privacy</a>
+              <a target="_blank" href="https://www.ynsitu.com/" class="text-white ml-10">Legal</a>
+              <a target="_blank" href="https://www.ynsitu.com/" class="text-white ml-10">Contact</a>
             </div>
           </div>
           <!--end: Aside footer for desktop -->

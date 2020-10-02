@@ -2,33 +2,48 @@
   <div>
     <!--begin::Dashboard-->
     <div class="row">
-      <div class="col-xxl-4">
-        <MixedWidget1></MixedWidget1>
-      </div>
-      <div class="col-xxl-4">
-        <ListWidget9></ListWidget9>
-      </div>
-      <div class="col-xxl-4">
-        <StatsWidget7></StatsWidget7>
-        <StatsWidget12></StatsWidget12>
-      </div>
+      <v-card
+        class="mx-auto"
+        color="#26c6da"
+        dark
+        max-width="400"
+      >
+        <v-card-title>
+          <v-icon
+            large
+            left
+          >
+            mdi-table
+          </v-icon>
+          <span class="title font-weight-light">Usuarios Registrados</span>
+        </v-card-title>
 
-      <div class="col-xxl-4 order-1 order-xxl-1">
-        <ListWidget1></ListWidget1>
-      </div>
-      <div class="col-xxl-8 order-2 order-xxl-1">
-        <AdvancedTableWidget2></AdvancedTableWidget2>
-      </div>
+        <v-card-text class="headline font-weight-bold">
+          "Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type invalid as well."
+        </v-card-text>
 
-      <div class="col-xxl-4 order-1 order-xxl-2">
-        <ListWidget3></ListWidget3>
-      </div>
-      <div class="col-xxl-4 order-1 order-xxl-2">
-        <ListWidget4></ListWidget4>
-      </div>
-      <div class="col-lg-12 col-xxl-4 order-1 order-xxl-2">
-        <ListWidget8></ListWidget8>
-      </div>
+        <v-card-actions>
+          <v-list-item class="grow">
+            <v-list-item-avatar color="grey darken-3">
+              <v-img
+                class="elevation-6"
+                src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
+              ></v-img>
+            </v-list-item-avatar>
+
+            <v-list-item-content>
+              <v-list-item-title>{{ usuarios.length }} usuarios</v-list-item-title>
+            </v-list-item-content>
+
+            <v-row
+              align="center"
+              justify="end"
+            >
+              <v-btn to="/users" class="ma-2" color="primary">Ver Usuarios</v-btn>
+            </v-row>
+          </v-list-item>
+        </v-card-actions>
+      </v-card>
     </div>
     <!--end::Dashboard-->
   </div>
@@ -36,30 +51,14 @@
 
 <script>
 import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
-import AdvancedTableWidget2 from "@/view/content/widgets/advance-table/Widget2.vue";
-import MixedWidget1 from "@/view/content/widgets/mixed/Widget1.vue";
-import ListWidget1 from "@/view/content/widgets/list/Widget1.vue";
-import ListWidget3 from "@/view/content/widgets/list/Widget3.vue";
-import ListWidget4 from "@/view/content/widgets/list/Widget4.vue";
-import ListWidget8 from "@/view/content/widgets/list/Widget8.vue";
-import ListWidget9 from "@/view/content/widgets/list/Widget9.vue";
-import StatsWidget7 from "@/view/content/widgets/stats/Widget7.vue";
-import StatsWidget12 from "@/view/content/widgets/stats/Widget12.vue";
+import { mapState } from 'vuex';
 
 export default {
   name: "dashboard",
   components: {
-    AdvancedTableWidget2,
-    MixedWidget1,
-    ListWidget1,
-    ListWidget3,
-    ListWidget4,
-    ListWidget8,
-    ListWidget9,
-    StatsWidget7,
-    StatsWidget12
   },
   mounted() {
+    this.$store.dispatch('getUsuarios');
     this.$store.dispatch(SET_BREADCRUMB, [{ title: "Dashboard" }]);
   },
   methods: {
@@ -88,6 +87,11 @@ export default {
       // set clicked tab index to bootstrap tab
       return parseInt(event.target.getAttribute("data-tab"));
     }
+  },
+  computed: {
+    ...mapState({
+        usuarios: state => state.usuarios.usuarios
+    })
   }
 };
 </script>

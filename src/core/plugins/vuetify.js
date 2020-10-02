@@ -1,9 +1,10 @@
 import Vue from "vue";
 import Vuetify from "vuetify/lib/framework";
+import VuetifyConfirm from "vuetify-confirm";
 
 Vue.use(Vuetify);
 
-export default new Vuetify({
+const vuetify = new Vuetify({
   theme: {
     options: {
       customProperties: true
@@ -21,3 +22,20 @@ export default new Vuetify({
     }
   }
 });
+
+Vue.use(VuetifyConfirm, {
+  vuetify,
+  buttonTrueText: 'Aceptar',
+  buttonFalseText: 'Cancelar',
+  buttonTrueColor: 'danger',
+  buttonFalseColor: 'grey',
+  buttonTrueFlat: false,
+  buttonFalseFlat: true,
+  color: 'warning',
+  icon: 'warning',
+  title: 'Warning',
+  width: 350,
+  property: '$confirm'
+});
+
+export default vuetify

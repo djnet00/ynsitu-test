@@ -5,47 +5,31 @@
       class="position-absolute top-0 right-0 text-right mt-5 mb-15 mb-lg-0 flex-column-auto justify-content-center py-5 px-10"
     >
       <span class="font-weight-bold font-size-3 text-dark-60">
-        Already have an account?
+        Ya tienes una cuenta?
       </span>
       <router-link
         class="font-weight-bold font-size-3 ml-2"
         :to="{ name: 'login' }"
       >
-        Sign In!
+        Iniciar Sesión!
       </router-link>
     </div>
     <!--end::Content header-->
 
     <!--begin::Signup-->
-    <div class="login-form login-signin">
+    <div class="login-form login-signin" style="width:400px;">
       <div class="text-center mb-10 mb-lg-20">
-        <h3 class="font-size-h1">Sign Up</h3>
+        <h3 class="font-size-h1">Regístrate</h3>
         <p class="text-muted font-weight-semi-bold">
-          Enter your details to create your account
+          Ingrese los siguientes datos para crear una cuenta.
         </p>
       </div>
 
       <!--begin::Form-->
       <b-form class="form" @submit.stop.prevent="onSubmit">
-        <b-form-group
-          id="example-input-group-0"
-          label=""
-          label-for="example-input-0"
-        >
-          <b-form-input
-            class="form-control form-control-solid h-auto py-5 px-6"
-            id="example-input-0"
-            name="example-input-0"
-            v-model="$v.form.username.$model"
-            :state="validateState('username')"
-            aria-describedby="input-0-live-feedback"
-            placeholder="Username"
-          ></b-form-input>
-
-          <b-form-invalid-feedback id="input-0-live-feedback">
-            Username is required.
-          </b-form-invalid-feedback>
-        </b-form-group>
+        <b-alert v-if="errors" class="mt-5" show variant="danger">
+          {{ errors }}
+        </b-alert>
 
         <b-form-group
           id="example-input-group-1"
@@ -63,7 +47,7 @@
           ></b-form-input>
 
           <b-form-invalid-feedback id="input-1-live-feedback">
-            Email is required and a valid email address.
+            Email es requerdido y debe ser válido.
           </b-form-invalid-feedback>
         </b-form-group>
 
@@ -84,7 +68,7 @@
           ></b-form-input>
 
           <b-form-invalid-feedback id="input-2-live-feedback">
-            Password is required.
+            Password es requerido.
           </b-form-invalid-feedback>
         </b-form-group>
 
@@ -95,13 +79,13 @@
             ref="kt_login_signup_submit"
             class="btn btn-primary font-weight-bold px-9 py-4 my-3 font-size-3 mx-4"
           >
-            Submit
+            Registrar
           </button>
           <button
             v-on:click="$router.push('login')"
             class="btn btn-light-primary font-weight-bold px-9 py-4 my-3 font-size-3 mx-4"
           >
-            Cancel
+            Cancelar
           </button>
         </div>
         <!--end::Action-->
@@ -133,24 +117,20 @@ export default {
     return {
       // Remove this dummy login info
       form: {
-        email: "admin@demo.com",
-        password: "demo"
+        email: "",
+        password: ""
       }
     };
   },
   validations: {
     form: {
-      username: {
-        required,
-        minLength: minLength(3)
-      },
       email: {
         required,
         email
       },
       password: {
         required,
-        minLength: minLength(3)
+        minLength: minLength(6)
       }
     }
   },
@@ -176,7 +156,6 @@ export default {
         return;
       }
 
-      const username = this.$v.form.username.$model;
       const email = this.$v.form.email.$model;
       const password = this.$v.form.password.$model;
 
@@ -193,10 +172,9 @@ export default {
         this.$store
           .dispatch(REGISTER, {
             email: email,
-            password: password,
-            username: username
-          })
-          .then(() => this.$router.push({ name: "dashboard" }));
+            password: password
+          });
+          //.then(() => this.$router.push({ name: "dashboard" }));
 
         submitButton.classList.remove(
           "spinner",

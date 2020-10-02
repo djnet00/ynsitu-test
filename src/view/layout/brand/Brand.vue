@@ -2,8 +2,8 @@
   <!-- begin:: Aside -->
   <div class="brand flex-column-auto" id="kt_brand" ref="kt_brand">
     <div class="brand-logo">
-      <router-link to="/">
-        <img :src="siteLogo()" alt="Logo" />
+      <router-link to="/dashboard">
+        <img style="width:100%" :src="siteLogo()" alt="Logo" />
       </router-link>
     </div>
     <div class="brand-tools" v-if="allowMinimize">
@@ -62,7 +62,7 @@ export default {
         const logos = this.layoutConfig("self.logo");
         logo = logos[Object.keys(logos)[0]];
       }
-      return process.env.BASE_URL + logo;
+      return logo;
     }
   },
   computed: {

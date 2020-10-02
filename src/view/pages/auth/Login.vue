@@ -5,44 +5,31 @@
       class="position-absolute top-0 right-0 text-right mt-5 mb-15 mb-lg-0 flex-column-auto justify-content-center py-5 px-10"
     >
       <span class="font-weight-bold font-size-3 text-dark-60">
-        Don't have an account yet?
+        No tienes una cuenta?
       </span>
       <router-link
         class="font-weight-bold font-size-3 ml-2"
         :to="{ name: 'register' }"
       >
-        Sign Up!
+        Regístrate!
       </router-link>
     </div>
     <!--end::Content header-->
 
     <!--begin::Signin-->
-    <div class="login-form login-signin">
-      <div class="text-center mb-10 mb-lg-20">
-        <h3 class="font-size-h1">Sign In</h3>
+    <div class="login-form login-signin" style="width:400px;">
+      <div class="text-center mb-10 mb-lg-10">
+        <h3 class="font-size-h1">Iniciar Sesión</h3>
         <p class="text-muted font-weight-semi-bold">
-          Enter your username and password
+          Ingrese su email y password
         </p>
       </div>
 
       <!--begin::Form-->
       <b-form class="form" @submit.stop.prevent="onSubmit">
-        <div role="alert" class="alert alert-info">
-          <div class="alert-text">
-            Use account <strong>admin@demo.com</strong> and password
-            <strong>demo</strong> to continue.
-          </div>
-        </div>
-
-        <div
-          role="alert"
-          v-bind:class="{ show: errors.length }"
-          class="alert fade alert-danger"
-        >
-          <div class="alert-text" v-for="(error, i) in errors" :key="i">
-            {{ error }}
-          </div>
-        </div>
+        <b-alert v-if="errors" class="mt-5" show variant="danger">
+          {{ errors }}
+        </b-alert>
 
         <b-form-group
           id="example-input-group-1"
@@ -59,7 +46,7 @@
           ></b-form-input>
 
           <b-form-invalid-feedback id="input-1-live-feedback">
-            Email is required and a valid email address.
+            Email es requerido y debe ser válido.
           </b-form-invalid-feedback>
         </b-form-group>
 
@@ -79,7 +66,7 @@
           ></b-form-input>
 
           <b-form-invalid-feedback id="input-2-live-feedback">
-            Password is required.
+            Password es requerido.
           </b-form-invalid-feedback>
         </b-form-group>
 
@@ -87,18 +74,11 @@
         <div
           class="form-group d-flex flex-wrap justify-content-between align-items-center"
         >
-          <a
-            href="#"
-            class="text-dark-60 text-hover-primary my-3 mr-2"
-            id="kt_login_forgot"
-          >
-            Forgot Password ?
-          </a>
           <button
             ref="kt_login_signin_submit"
-            class="btn btn-primary font-weight-bold px-9 py-4 my-3 font-size-3"
+            class="btn btn-block btn-primary font-weight-bold px-9 py-4 my-3 font-size-3"
           >
-            Sign In
+            Iniciar Sesión
           </button>
         </div>
         <!--end::Action-->
@@ -117,7 +97,7 @@
 
 <script>
 import { mapState } from "vuex";
-import { LOGIN, LOGOUT } from "@/core/services/store/auth.module";
+import { LOGIN } from "@/core/services/store/auth.module";
 
 import { validationMixin } from "vuelidate";
 import { email, minLength, required } from "vuelidate/lib/validators";
@@ -129,8 +109,8 @@ export default {
     return {
       // Remove this dummy login info
       form: {
-        email: "admin@demo.com",
-        password: "demo"
+        email: "julian@gmail.com",
+        password: "123456"
       }
     };
   },
@@ -171,7 +151,7 @@ export default {
       const password = this.$v.form.password.$model;
 
       // clear existing errors
-      this.$store.dispatch(LOGOUT);
+      //this.$store.dispatch(LOGOUT);
 
       // set spinner to submit button
       const submitButton = this.$refs["kt_login_signin_submit"];
@@ -181,16 +161,16 @@ export default {
       setTimeout(() => {
         // send login request
         this.$store
-          .dispatch(LOGIN, { email, password })
+          .dispatch(LOGIN, { email, password });
           // go to which page after successfully login
-          .then(() => this.$router.push({ name: "dashboard" }));
+          //.then(() => this.$router.push({ name: "dashboard" }));
 
         submitButton.classList.remove(
           "spinner",
           "spinner-light",
           "spinner-right"
         );
-      }, 2000);
+      }, 1000);
     }
   },
   computed: {

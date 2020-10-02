@@ -1,9 +1,9 @@
-import Vue from "vue";
+//import Vue from "vue";
 
-var MockAdapter = require("axios-mock-adapter");
+//var MockAdapter = require("axios-mock-adapter");
 
 // mock testing user accounts
-const users = [
+/*const users = [
   {
     email: "admin@demo.com",
     password: "demo",
@@ -14,14 +14,15 @@ const users = [
     password: "demo",
     token: "fgj8fjdfk43"
   }
-];
+];*/
 
 const MockService = {
   init() {
     // this sets the mock adapter on the default instance
-    var mock = new MockAdapter(Vue.axios);
+    // var mock = new MockAdapter(Vue.axios);
 
     // mock login request
+    /*
     mock.onPost("/login").reply(data => {
       const credential = JSON.parse(data.data);
       const found = users.find(user => {
@@ -47,6 +48,7 @@ const MockService = {
       }
       return [401, { errors: ["Invalid authentication"] }];
     });
+    */
   }
 };
 

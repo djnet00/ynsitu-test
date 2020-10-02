@@ -1,6 +1,3 @@
-import ApiService from "@/core/services/api.service";
-import JwtService from "@/core/services/jwt.service";
-
 // action types
 export const VERIFY_AUTH = "verifyAuth";
 export const LOGIN = "login";
@@ -13,10 +10,16 @@ export const PURGE_AUTH = "logOut";
 export const SET_AUTH = "setUser";
 export const SET_ERROR = "setError";
 
+// firebase
+import { auth } from "@/firebase";
+
+// router
+import router from '@/router'
+
 const state = {
   errors: null,
   user: {},
-  isAuthenticated: !!JwtService.getToken()
+  isAuthenticated: false
 };
 
 const getters = {
@@ -30,58 +33,39 @@ const getters = {
 
 const actions = {
   [LOGIN](context, credentials) {
-    return new Promise(resolve => {
-      ApiService.post("login", credentials)
-        .then(({ data }) => {
-          context.commit(SET_AUTH, data);
-          resolve(data);
-        })
-        .catch(({ response }) => {
-          context.commit(SET_ERROR, response.data.errors);
-        });
-    });
+    auth.signInWithEmailAndPassword(credentials.email, credentials.password)
+      .then(res => {
+        const data = {
+          email: res.user.email,
+          uid: res.user.uid,
+          token: res.user.refreshToken
+        };
+        context.commit(SET_AUTH, data);
+
+        router.push('/dashboard');
+      })
+      .catch(error => context.commit(SET_ERROR, error));
   },
   [LOGOUT](context) {
     context.commit(PURGE_AUTH);
   },
   [REGISTER](context, credentials) {
-    return new Promise((resolve, reject) => {
-      ApiService.post("users", { user: credentials })
-        .then(({ data }) => {
-          context.commit(SET_AUTH, data);
-          resolve(data);
-        })
-        .catch(({ response }) => {
-          context.commit(SET_ERROR, response.data.errors);
-          reject(response);
-        });
-    });
-  },
-  [VERIFY_AUTH](context) {
-    if (JwtService.getToken()) {
-      ApiService.setHeader();
-      ApiService.get("verify")
-        .then(({ data }) => {
-          context.commit(SET_AUTH, data);
-        })
-        .catch(({ response }) => {
-          context.commit(SET_ERROR, response.data.errors);
-        });
-    } else {
-      context.commit(PURGE_AUTH);
-    }
-  },
-  [UPDATE_USER](context, payload) {
-    const { email, username, password, image, bio } = payload;
-    const user = { email, username, bio, image };
-    if (password) {
-      user.password = password;
-    }
+    auth.createUserWithEmailAndPassword(credentials.email, credentials.password)
+      .then(res => {
+        const newUser = {
+          email: res.user.email,
+          uid: res.user.uid,
+          token: res.user.refreshToken
+        };
 
-    return ApiService.put("user", user).then(({ data }) => {
-      context.commit(SET_AUTH, data);
-      return data;
-    });
+        context.commit(SET_AUTH, newUser);
+
+        router.push('/dashboard');
+      })
+      .catch(error => context.commit(SET_ERROR, error));
+  },
+  [VERIFY_AUTH](context, data) {
+    context.commit(SET_AUTH, data);
   }
 };
 
@@ -92,14 +76,13 @@ const mutations = {
   [SET_AUTH](state, user) {
     state.isAuthenticated = true;
     state.user = user;
-    state.errors = {};
-    JwtService.saveToken(state.user.token);
+    state.errors = null;
   },
   [PURGE_AUTH](state) {
     state.isAuthenticated = false;
     state.user = {};
-    state.errors = {};
-    JwtService.destroyToken();
+    state.errors = null;
+    auth.signOut();
   }
 };
 
