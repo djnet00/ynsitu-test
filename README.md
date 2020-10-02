@@ -15,10 +15,8 @@ yarn serve
 yarn build
 ```
 
-### Lints and fixes files
-```
-yarn lint
-```
+### TEST URL
+[https://ynsitu-test.web.app/login](https://ynsitu-test.web.app/login).
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
